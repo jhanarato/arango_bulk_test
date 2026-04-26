@@ -1,0 +1,17 @@
+[project]
+name = "arango-bulk-test"
+version = "0.1.0"
+description = "Investigate ArangoDB bulk loading issues"
+readme = "README.md"
+authors = [
+    { name = "jr", email = "jhanarato@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "python-arango==3.12.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
