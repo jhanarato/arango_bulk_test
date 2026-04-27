@@ -7,19 +7,15 @@ name = "arango-bulk-test"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "pytest" },
     { name = "python-arango" },
 ]
 
-[package.dev-dependencies]
-dev = [
-    { name = "pytest" },
-]
-
 [package.metadata]
-requires-dist = [{ name = "python-arango", specifier = "==3.12.1" }]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=9.0.3" }]
+requires-dist = [
+    { name = "pytest", specifier = ">=9.0.3" },
+    { name = "python-arango", specifier = "==3.12.1" },
+]
 
 [[package]]
 name = "certifi"

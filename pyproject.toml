@@ -6,12 +6,8 @@ readme = "README.md"
 authors = [
     { name = "jr", email = "jhanarato@gmail.com" }
 ]
-requires-python = ">=3.11"
+requires-python = "==3.6.2"
 dependencies = [
+    "pytest==9.0.3",
     "python-arango==3.12.1",
-]
-
-[dependency-groups]
-dev = [
-    "pytest>=9.0.3",
 ]
