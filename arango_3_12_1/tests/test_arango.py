@@ -15,24 +15,46 @@ def database(client):
     yield client.database(DB_NAME)
     client.delete_database(DB_NAME)
 
-def test_database(database):
-    assert database.name == DB_NAME
+@pytest.fixture
+def cats_collection(database):
+    return database.create_collection('cats')
+
+@pytest.fixture
+def cats():
+    return [
+        {
+            "_key": "felicity",
+            "name": "Felicity",
+            "breed": "Siamese",
+        },
+        {
+            "_key": "prince",
+            "name": "Prince",
+            "breed": "Shorthair",
+        },
+
+    ]
+
+@pytest.fixture
+def duplicates():
+    return [
+        {
+            "_key": "felicity",
+            "name": "Felicity",
+            "breed": "Siamese",
+        },
+        {
+            "_key": "felicity",
+            "name": "Felicity",
+            "breed": "Siamese",
+        },
+    ]
 
 class TestImportBulk:
-    def test_populate_a_collection(self, database):
-        cats_collection = database.create_collection('cats')
-        cats = [
-            {
-                "_key": "felicity",
-                "name": "Felicity",
-                "breed": "Siamese",
-            },
-            {
-                "_key": "prince",
-                "name": "Prince",
-                "breed": "Shorthair",
-            },
-
-        ]
+    def test_populate_a_collection(self, cats_collection, cats):
         cats_collection.import_bulk(cats)
         assert cats_collection.count() == 2
+
+    def test_fails_silently_by_default(self, cats_collection, duplicates):
+        cats_collection.import_bulk(duplicates)
+        assert cats_collection.count() == 1
