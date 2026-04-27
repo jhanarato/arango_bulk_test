@@ -1,4 +1,14 @@
 services:
+  python-interpreter:
+    build:
+      context: .
+    container_name: 'python-interpreter'
+    depends_on:
+      - old-arango-db
+    entrypoint: python
+    stdin_open: true
+    tty: true
+
   arango-bulk-test:
     build:
       context: .
@@ -6,10 +16,6 @@ services:
     depends_on:
       - old-arango-db
     entrypoint: pytest
-    # To get a shell run `docker-compose run arango-bulk-test`
-#    entrypoint: /bin/bash
-#    stdin_open: true
-#    tty: true
 
   old-arango-db:
     # Use the Arango release from 2017-12-28
