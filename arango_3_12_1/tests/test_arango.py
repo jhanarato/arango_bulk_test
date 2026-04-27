@@ -62,3 +62,9 @@ class TestImportBulk:
     def test_gives_error_when_halt_on_error(self, cats_collection, duplicates):
         with pytest.raises(DocumentInsertError):
             cats_collection.import_bulk(duplicates, halt_on_error=True)
+
+    def test_error_has_no_context(self, cats_collection, duplicates):
+        try:
+            cats_collection.import_bulk(duplicates, halt_on_error=True)
+        except DocumentInsertError as e:
+            assert str(e) == '[HTTP 409][ERR 1210] unique constraint violated'
