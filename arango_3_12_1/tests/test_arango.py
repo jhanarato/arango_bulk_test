@@ -1,6 +1,6 @@
 import pytest
 from arango import ArangoClient
-from arango.database import Database
+from arango.exceptions import DocumentInsertError
 
 DB_NAME = 'bulk_load_test'
 
@@ -58,3 +58,7 @@ class TestImportBulk:
     def test_fails_silently_by_default(self, cats_collection, duplicates):
         cats_collection.import_bulk(duplicates)
         assert cats_collection.count() == 1
+
+    def test_gives_error_when_halt_on_error(self, cats_collection, duplicates):
+        with pytest.raises(DocumentInsertError):
+            cats_collection.import_bulk(duplicates, halt_on_error=True)
