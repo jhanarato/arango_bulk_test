@@ -43,7 +43,7 @@ To run the tests:
 
 ```commandline
 docker compose up old-arango-db
-docker compose run arango-bulk-test
+docker compose run --build arango-bulk-test
 ```
 
 I couldn't find the documentation for this version of the `python-arango` API, but you can explore with:
