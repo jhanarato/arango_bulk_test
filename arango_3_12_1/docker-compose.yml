@@ -1,0 +1,23 @@
+services:
+  arango-bulk-test:
+    build:
+      context: .
+    container_name: 'arango-bulk-test'
+    depends_on:
+      - old-arango-db
+    entrypoint: pytest
+    # To get a shell run `docker-compose run arango-bulk-test`
+#    entrypoint: /bin/bash
+#    stdin_open: true
+#    tty: true
+
+  old-arango-db:
+    # Use the Arango release from 2017-12-28
+    # See the changelog here:
+    # https://raw.githubusercontent.com/arangodb/arangodb/3.11/CHANGELOG
+    image: arangodb/arangodb:3.3.1
+    container_name: 'old-arango-db'
+    environment:
+      ARANGO_ROOT_PASSWORD: "test"
+    expose:
+      - 8529

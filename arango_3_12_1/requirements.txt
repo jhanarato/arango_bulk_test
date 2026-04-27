@@ -1,0 +1,3 @@
+attrs==19.1.0
+pytest==3.3.2
+python-arango==3.12.1
