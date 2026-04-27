@@ -46,7 +46,7 @@ docker compose up old-arango-db
 docker compose run --build arango-bulk-test
 ```
 
-I couldn't find the documentation for this version of the `python-arango` API, but you can explore with:
+You can explore the API in the Python REPL with this command:
 
 ```commandline
 docker compose run python-interpreter
