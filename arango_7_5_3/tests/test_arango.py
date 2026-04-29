@@ -3,7 +3,7 @@ from typing import Any, Generator
 import pytest
 from arango import ArangoClient, DocumentInsertError
 from arango.collection import StandardCollection
-from arango.database import Database, StandardDatabase
+from arango.database import StandardDatabase
 
 DB_NAME = 'bulk_load_test'
 
@@ -24,7 +24,6 @@ def database(client, sys_db) -> Generator[StandardDatabase, Any, None]:
         sys_db.delete_database(DB_NAME)
     sys_db.create_database(DB_NAME)
     yield client.db(DB_NAME, username='root', password='test')
-
 
 
 @pytest.fixture

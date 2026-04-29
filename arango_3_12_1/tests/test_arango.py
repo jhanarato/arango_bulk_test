@@ -4,6 +4,7 @@ from arango.exceptions import DocumentInsertError
 
 DB_NAME = 'bulk_load_test'
 
+
 @pytest.fixture
 def client() -> ArangoClient:
     return ArangoClient(host='old-arango-db', port=8529, username='root', password='test')
@@ -15,9 +16,11 @@ def database(client):
     yield client.database(DB_NAME)
     client.delete_database(DB_NAME)
 
+
 @pytest.fixture
 def cats_collection(database):
     return database.create_collection('cats')
+
 
 @pytest.fixture
 def cats():
@@ -35,6 +38,7 @@ def cats():
 
     ]
 
+
 @pytest.fixture
 def duplicates():
     return [
@@ -49,6 +53,7 @@ def duplicates():
             "breed": "Siamese",
         },
     ]
+
 
 class TestImportBulk:
     def test_populate_a_collection(self, cats_collection, cats):
