@@ -77,3 +77,50 @@ uv run pytest
 ## Testing ArangoDB `8.3.2`
 
 The setup is very similar to `7.5.3`. Just update the `python-arango` package and remove the old `setuptools` which is not required. Run the tests as above.
+
+## What have we learned?
+
+In `3.12.1` the documentation for `arango.collections.standard.Collection.import_bulk()` says
+
+> `halt_on_error` – halt the entire import on an error (default: `True`)
+
+When in fact the type signature is
+
+```python
+@api_method
+def import_bulk(self,
+                documents: list,
+                halt_on_error: bool = None,
+                details: bool = True,
+                from_prefix: str = None,
+                to_prefix: str = None,
+                overwrite: bool = None,
+                on_duplicate: str = None,
+                sync: bool = None) -> dict:
+                ...
+```
+
+So in fact it defaults to `None`. I can see why Blake had an issue with this.
+
+However, by `7.5.3` the method has moved to `arango.collection.Collection` and the type signature has changed
+
+```python
+def import_bulk(self,
+                documents: Sequence[dict[str, Any]],
+                halt_on_error: bool = True,
+                details: bool = True,
+                from_prefix: str | None = None,
+                to_prefix: str | None = None,
+                overwrite: bool | None = None,
+                on_duplicate: str | None = None,
+                sync: bool | None = None,
+                batch_size: int | None = None) -> dict[str, Any] | AsyncJob[dict[str, Any]] | BatchJob[dict[str, Any]] | None | list[dict[str, Any] | AsyncJob[dict[str, Any]] | BatchJob[dict[str, Any]] | None]:
+                ...
+```
+
+Our tests confirm that if we use the default `halt_on_error` we get a `DocumentInsertError` in `python-arango` `7.5.3` and `8.3.2` but it does fail silently with `3.12.1`. However, `import_bulk` does not give any error context apart from the type of error. e.g. `[HTTP 409][ERR 1210] unique constraint violated` which makes it hard to debug the problem when it occurs.
+
+However, from a review of the API, there are alternatives:
+
+- Collections have a `import_many()` method which returns a list that includes the exception objects rather than raising the exception and halting.
+- Use [batch API execution](https://aioarango.readthedocs.io/en/stable/batch.html)
