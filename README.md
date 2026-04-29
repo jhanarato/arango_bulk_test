@@ -53,3 +53,23 @@ docker compose run python-interpreter
 ```
 
 You can use the `help()` command in the REPL and so forth.
+
+## Testing ArangoDB `7.5.3`
+
+The setup here is much simpler. 
+
+- Use the current SuttaCentral ArangoDB container.
+- Set python version to `==3.11.3` 
+- Add `python-arango` version `7.5.3` with `uv`. An older `setuptools` package was required.
+
+In the suttacentral project:
+
+```commandline
+make run-dev-arango-only
+```
+
+Then to run the tests:
+
+```commandline
+uv run pytest
+```
