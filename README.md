@@ -73,3 +73,7 @@ Then to run the tests:
 ```commandline
 uv run pytest
 ```
+
+## Testing ArangoDB `8.3.2`
+
+The setup is very similar to `7.5.3`. Just update the `python-arango` package and remove the old `setuptools` which is not required. Run the tests as above.
