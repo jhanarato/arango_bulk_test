@@ -1,0 +1,11 @@
+[project]
+name = "arango-7-5-3"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = "==3.11.3"
+dependencies = [
+    "pytest>=9.0.3",
+    "python-arango==7.5.3",
+    "setuptools<82",
+]
