@@ -24,6 +24,7 @@ def database(client, sys_db) -> Generator[StandardDatabase, Any, None]:
         sys_db.delete_database(DB_NAME)
     sys_db.create_database(DB_NAME)
     yield client.db(DB_NAME, username='root', password='test')
+    sys_db.delete_database(DB_NAME)
 
 
 @pytest.fixture
